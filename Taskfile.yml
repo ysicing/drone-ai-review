@@ -1,0 +1,53 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  BUILD_DATE: $(date +%Y%m%d%H)
+
+tasks:
+
+  gofmt:
+    cmds:
+      - go install golang.org/x/tools/cmd/goimports@latest
+      - gofmt -s -w .
+      - goimports -w .
+
+  govulncheck:
+    desc: vulnerability detection
+    cmds:
+      - go install golang.org/x/vuln/cmd/govulncheck@v1.1.1
+      - govulncheck ./...
+
+  gci:
+    cmds:
+      - go install github.com/daixiang0/gci@v0.13.1
+      - gci write --skip-generated --custom-order -s standard -s "prefix(github.com/drone-stack/drone-plugin-template)" -s default -s blank -s dot .
+
+  gomod:
+    cmds:
+      - go mod tidy
+
+  fmt:
+    desc: format code
+    run: once
+    cmds:
+      - task: gomod
+      - task: gofmt
+      - task: gci
+
+  build:
+    desc: build binary
+    deps:
+      - task: fmt
+    cmds:
+      - go build -o release/linux/amd64/plugin -ldflags "-X 'main.buildDate=$(date +%Y%m%d%H)' -X 'main.buildVersion=$(git describe --tags --always --dirty)'"
+
+  docker:
+    desc: build docker image
+    cmds:
+      - docker buildx build --pull --push --platform linux/amd64,linux/arm64 -t ttl.sh/drone-stack/drone-plugin-template .
+
+  default:
+    cmds:
+      - task: build
