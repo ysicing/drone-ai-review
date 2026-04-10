@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/drone-stack/drone-plugin-template/plugin"
+	"github.com/drone-stack/drone-ai-review/plugin"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -33,8 +33,8 @@ func main() {
 	}
 
 	app := cli.NewApp()
-	app.Name = "drone example plugin"
-	app.Usage = "drone example plugin"
+	app.Name = "drone-ai-review"
+	app.Usage = "drone ai review plugin"
 	app.Action = run
 	app.Version = version
 	app.Flags = []cli.Flag{

@@ -1,4 +1,4 @@
-module github.com/drone-stack/drone-plugin-template
+module github.com/drone-stack/drone-ai-review
 
 go 1.26.1
 

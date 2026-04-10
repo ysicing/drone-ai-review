@@ -22,7 +22,7 @@ tasks:
   gci:
     cmds:
       - go install github.com/daixiang0/gci@v0.13.1
-      - gci write --skip-generated --custom-order -s standard -s "prefix(github.com/drone-stack/drone-plugin-template)" -s default -s blank -s dot .
+      - gci write --skip-generated --custom-order -s standard -s "prefix(github.com/drone-stack/drone-ai-review)" -s default -s blank -s dot .
 
   gomod:
     cmds:
@@ -46,7 +46,7 @@ tasks:
   docker:
     desc: build docker image
     cmds:
-      - docker buildx build --pull --push --platform linux/amd64,linux/arm64 -t ttl.sh/drone-stack/drone-plugin-template .
+      - docker buildx build --pull --push --platform linux/amd64,linux/arm64 -t ttl.sh/drone-stack/drone-ai-review .
 
   default:
     cmds:
